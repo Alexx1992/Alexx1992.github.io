@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <section>
+        <form id="form">
+            <div class="field-block">
+                <div class="left-side">
+                    <input type="text" placeholder="Фамилия" required name="surname">
+                    <input type="text" placeholder="Имя" required name="name">
+                    <input type="email" placeholder="Введите ваш e-mail" required name="email">
+                    <input type="tel" placeholder="Телефон" required pattern="^[8][0-9]{10}" name="phone">
+                </div>
+                <hr />
+                <div class="right-side">
+                    <textarea cols="30" rows="10" placeholder="Комментарий" name="comment"></textarea>
+                </div>
+            </div>
+            <button type="submit">Отправить</button>
+        </form>
+    </section>
+</body>
+<script>
+
+    document.getElementById('form').addEventListener('submit', e => {
+      e.preventDefault();
+
+      const data = new FormData(e.target);
+
+      fetch('/info', {
+        method: 'POST',
+        body: data
+      })
+        .then(res => res)
+        .catch(err => console.error(err));
+    });
+</script>
+</html>
