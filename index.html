@@ -15,7 +15,7 @@
                     <input type="text" placeholder="Фамилия" required name="surname">
                     <input type="text" placeholder="Имя" required name="name">
                     <input type="email" placeholder="Введите ваш e-mail" required name="email">
-                    <input type="tel" placeholder="Телефон" required pattern="^[8][0-9]{10}" name="phone">
+                    <input type="tel" placeholder="Телефон" required pattern="[0-9]{10}" name="phone">
                 </div>
                 <hr />
                 <div class="right-side">
@@ -32,12 +32,22 @@
       e.preventDefault();
 
       const data = new FormData(e.target);
+      const jsonData = {};
 
-      fetch('/info', {
+      for (const [key, value] of data.entries()) {
+        jsonData[key] = value;
+      }
+
+      fetch('https://api.myjson.com/bins', {
         method: 'POST',
-        body: data
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        body: JSON.stringify(jsonData)
       })
-        .then(res => res)
+        .then(res => res.json())
+        .then(data => alert(`Your form was created by url ${data.uri}`))
         .catch(err => console.error(err));
     });
 </script>
